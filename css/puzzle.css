@@ -85,7 +85,7 @@
 
 .frame div > img {
     display: block;
-    filter: grayscale(1);
+    /*filter: grayscale(1);*/
     z-index: -1;
     transition: all 0.2s;
 }

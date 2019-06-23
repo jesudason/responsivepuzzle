@@ -16,54 +16,57 @@
     <script src="../js/puzzle.js"></script>
 </head>
 
-<body class="center-content">
-    
-    <input type="checkbox" name="options" id="options" style="display: none;">
+<body class="page">
+    <h1>The Toe Jamz - Puzzle</h1>
+    <div class="center-content">
+         <input type="checkbox" name="options" id="options" style="display: none;">
+        <label for="options" class="controls no-select">OPTIONS</label>
+        <div id="puzzle1" style="padding: 20px;"></div>
+        <div class="options">
+    <!--         <div class="fgroup grid">
+                <div class="fieldset">
+                    <label for="numrows"># of rows</label>
+                    <input type="number" id="numrows" name="numrows" value="3" min="1" max="10">
 
-    <label for="options" class="controls no-select">OPTIONS</label>
+                    <label for="numcolumns"># of columns</label>
+                    <input type="number" id="numcolumns" name="numcolumns" value="3" min="1" max="10">
+                </div>
+            </div>
 
-    <div id="puzzle1" style="padding: 20px;"></div>
+            <div class="fgroup image">
+                <div class="fieldset" style="text-align: left;">
+                    <label for="image">Image URL</label>
+                    <input type="text" id="image" name="image" style="width: 100%;" value="">
+                </div>
+            </div>
+     -->
+            <div class="fgroup no-select">
+                <div class="fieldset difficulty">
+                    <input type="radio" id="easy" name="difficulty" value="easy">
+                    <label for="easy">Easy</label>
 
-    <div class="options">
-        <div class="fgroup grid">
-            <div class="fieldset">
-                <label for="numrows"># of rows</label>
-                <input type="number" id="numrows" name="numrows" value="3" min="1" max="10">
+                    <input type="radio" id="normal" name="difficulty" value="normal" checked>
+                    <label for="normal">Normal</label>
 
-                <label for="numcolumns"># of columns</label>
-                <input type="number" id="numcolumns" name="numcolumns" value="3" min="1" max="10">
+                    <input type="radio" id="hard" name="difficulty" value="hard">
+                    <label for="hard">Hard</label>
+
+                    <input type="radio" id="expert" name="difficulty" value="expert">
+                    <label for="expert">Expert</label>
+
+                    <input type="radio" id="random" name="difficulty" value="random">
+                    <label for="random">Random</label>                
+                </div>
+            </div>
+
+            <div class="btngroup">
+                <div class="ui-btn no-select" data-attr="reset">UPDATE</div>
             </div>
         </div>
 
-        <div class="fgroup image">
-            <div class="fieldset" style="text-align: left;">
-                <label for="image">Image URL</label>
-                <input type="text" id="image" name="image" style="width: 100%;" value="">
-            </div>
-        </div>
-
-        <div class="fgroup no-select">
-            <div class="fieldset difficulty">
-                <input type="radio" id="easy" name="difficulty" value="easy">
-                <label for="easy">Easy</label>
-
-                <input type="radio" id="normal" name="difficulty" value="normal">
-                <label for="normal">Normal</label>
-
-                <input type="radio" id="hard" name="difficulty" value="hard">
-                <label for="hard">Hard</label>
-
-                <input type="radio" id="expert" name="difficulty" value="expert" checked>
-                <label for="expert">Expert</label>
-            </div>
-        </div>
-
-        <div class="btngroup">
-            <div class="ui-btn no-select" data-attr="reset">UPDATE</div>
-        </div>
+        <div data-attr="reset" class="controls no-select" style="display: inline-block;">SHUFFLE</div>       
     </div>
 
-    <div data-attr="reset" class="controls no-select" style="display: inline-block;">SHUFFLE</div>
 
     <script type="text/javascript">
 
@@ -84,12 +87,13 @@
             }
 
             const opts = {};
-            const image = (getURLParameter('image')) ? getURLParameter('image') : "https://images.unsplash.com/photo-1548161955-40def7e9742d";
+            const images = ["https://images.unsplash.com/photo-1548161955-40def7e9742d", "../images/gradient.jpg"];
+            const image = images[Math.floor(Math.random()*images.length)];
             const puzzle1 = document.querySelector('#puzzle1');
             puzzle1.pz = new Puzzle({
                 el           : puzzle1,
                 image        : image,
-                difficulty   : "expert",
+                difficulty   : "normal",
                 dragenter    : function(evt){onDragEnter(evt)},
                 dragleave    : function(evt){onDragLeave(evt)},
                 mousedown    : function(evt){onMouseDown(evt)},
@@ -129,6 +133,7 @@
             document.querySelectorAll('div[data-attr="reset"]').forEach(function(item){
                 item.addEventListener('click',function(evt){
                     updatePuzzle(evt);
+                    document.querySelectorAll('input[name="options"]')[0].checked = false;
                 });
             });
             

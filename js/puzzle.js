@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded',function(){
         this.difficulty = null;
         this.settings = {
             el             : null,
-            image          : 'https://images.unsplash.com/photo-1548161955-40def7e9742d',
+            image          : 'https://images.unsplash.com/photo-1548161955-40def7e9742d',      
             fullImg        : null,
             numcolumns     : 3,
             numrows        : 3,
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded',function(){
                 instance.settings.height = height;
 
                 // insert html into DOM
-                instance.grid = buildGrid(instance.settings.numcolumns,instance.settings.numrows);
+                instance.grid = buildGrid(instance.settings.numcolumns,instance.settings.numrows,instance.settings.difficulty);
                 instance.correctTiles();
                 instance.container.innerHTML = "";
                 instance.container.appendChild(instance.grid,instance.container.children[0]);
@@ -110,15 +110,15 @@ document.addEventListener('DOMContentLoaded',function(){
         this.setDifficulty = function(difficulty) {
             switch(difficulty) {
                 case "easy":
-                    instance.difficulty = .25;
+                    instance.difficulty = .75;
                     break;
 
                 case "normal":
-                    instance.difficulty = .50;
+                    instance.difficulty = 1;
                     break;
 
                 case "hard":
-                    instance.difficulty = .75;
+                    instance.difficulty = 1;
                     break;
                     
                 case "expert":
@@ -126,11 +126,10 @@ document.addEventListener('DOMContentLoaded',function(){
                     break;
 
                 default:
-                    instance.difficulty = .50;  
+                    instance.difficulty = 1;  
             }
 
             instance.usropts.difficulty = difficulty;
-
             return instance;
         };
 
@@ -144,6 +143,7 @@ document.addEventListener('DOMContentLoaded',function(){
                     instance.usropts.numcolumns = obj[value];
                 }
             });
+            console.log(instance.upropts);
             
             return instance;
         };
@@ -786,12 +786,33 @@ document.addEventListener('DOMContentLoaded',function(){
             });
         }
 
-        function buildGrid(numcolumns,numrows) {
+        function buildGrid(numcolumns,numrows,difficulty) {
             let gridArr = [];
             let i = 0;
             let currentRow = 0;
             let currentColumn = 1;
+            let randomNum = function getRandomInt(max) {
+              return Math.floor(Math.random() * Math.floor(max));
+            }
+
             instance.grid = document.createElement('ul');
+            if (difficulty === 'easy') {
+                numcolumns = 3;
+                numrows = 3;
+            } else if (difficulty === 'normal') {
+                numcolumns = 4;
+                numrows = 4;
+            } else if (difficulty === 'hard') {
+                numcolumns = 7;
+                numrows = 7;
+            } else if (difficulty === 'expert') {
+                numcolumns = 10;
+                numrows = 10;
+            } else if (difficulty === 'random') {
+                numcolumns = randomNum(11);
+                numrows = randomNum(11);
+            }
+
             instance.gridSize = numcolumns * numrows;
 
             while(i<instance.gridSize) {
